@@ -20,6 +20,7 @@ def replace_links(email):
     '''Takes in the template contents and returns the new email with names and links replaced.'''
     link_email = ""
     for line in email:
+        #If a url is found in the line
         if(re.sub(url_reg, 'a href="' + link_to + '"', line, 10)):
             line = (re.sub(url_reg, 'a href="' + link_to + '"', line, 10))
             #Replacing Names here
@@ -41,13 +42,18 @@ def replace_images(email):
     for line in email:
         #If the value of fake_person is found and an image, replace the image
         if fake_person in line:
+            #replace image with the sender image
             if(re.sub(img_reg, 'src=\"' + fake_img + '"', line, 10)):
                 line = (re.sub(img_reg, 'src=\"' + fake_img + '"', line, 10))
                 new_email = new_email + line + "\n"
+        #replace the image with the target image
         elif target in line:
             if(re.sub(img_reg, 'src=\"' + target_img + '"', line, 10)):
                 line = (re.sub(img_reg, 'src=\"' + target_img + '"', line, 10))
                 new_email = new_email + line + "\n"
+        #if this string is found in the line, we'll replace it with the user input.
+        #this is this way because the only time the sender's job is found is on the
+        #same line as the image. This should be rewritten to be more expandable
         elif "SENDERJOB" in line:
            new_email = new_email + replace_job(line, fake_job) + "\n"
         else:
@@ -64,6 +70,7 @@ def replace_name(line, person):
     elif person == "TARGET":
         line = (re.sub(person, target, line, 10))
         #This is put here because the JOB flag is right next to the name
+        #Should be modified in the future to increase exapandability
         line = replace_job(line, job)
     return(line)
 
