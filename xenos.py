@@ -15,21 +15,9 @@ import sys
 url_reg = "(a href=\"http[s]://([\w\-\.\?\&\$\/\=\;\%])+)"
 img_reg = "(src=\"http[s]:\/\/([\w\-\.\?\&\$\/\=\;\%\#\:])+)"
 
-#Get user input through a psudeo-menu
-template = open(input("Template Path: "), "r")
-email = template.readlines()
-template.close()
-link_to = input("Custom Link: ")
-fake_person = input("Name of sender: ")
-fake_img = input("Sender Profile Pic: ")
-fake_job = input("Sender Profession: ")
-fake_work = input("Sender Work Place: ")
-target = input("Target Name: ")
-target_img = input("Target Profile Pic: ")
-job = input("Target Profession: ")
-
 #Replace links and names
 def replace_links(email):
+    '''Takes in the template contents and returns the new email with names and links replaced.'''
     link_email = ""
     for line in email:
         if(re.sub(url_reg, 'a href="' + link_to + '"', line, 10)):
@@ -48,6 +36,7 @@ def replace_links(email):
 
 #Replace images for the target and the fake person
 def replace_images(email):
+    '''Takes in the contents of an email and returns the new email with images replaced.'''
     new_email = ""
     for line in email:
         #If the value of fake_person is found and an image, replace the image
@@ -66,7 +55,9 @@ def replace_images(email):
     return(new_email)
 
 #Returns a modified line with a place holder replaced with user input
+#Also replaces the job information as this script works line by line
 def replace_name(line, person):
+    '''Takes in a line and user input person and returns the line replaced.'''
     if person == "FROM":
         line = (re.sub(person, fake_person, line, 10))
         line = replace_job(line, fake_job)
@@ -78,6 +69,7 @@ def replace_name(line, person):
 
 #Replace JOB in the template with input
 def replace_job(line, job):
+    '''Takes in a line and user input job and returns the line replaced.'''
     if "SENDERJOB" in line:
         line = (re.sub("SENDERJOB", job, line, 10))
         line = (re.sub("SENDERWORK", fake_work, line, 10))
@@ -85,8 +77,21 @@ def replace_job(line, job):
         line = (re.sub("JOB", job, line, 10))
     return(line)
 
+#Get user input through a psudeo-menu
+template = open(input("Template Path: "), "r")
+email = template.readlines()
+template.close()
+link_to = input("Custom Link: ")
+fake_person = input("Name of sender: ")
+fake_img = input("Sender Profile Pic: ")
+fake_job = input("Sender Profession: ")
+fake_work = input("Sender Work Place: ")
+target = input("Target Name: ")
+target_img = input("Target Profile Pic: ")
+job = input("Target Profession: ")
+
+#Write the email
 content = replace_images(replace_links(email).splitlines())
 email = open("email.html", "w+")
 email.write(content)
 email.close()
-
