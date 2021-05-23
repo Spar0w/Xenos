@@ -5,9 +5,20 @@
 ** Ethics
    The idea for this came one day when I glanced over at my email and questioned the legitmacy of this connection I was given. "What are the chances that this is fake?" It was from LinkedIn, but it got me thinking: "How easy is it to clone this?" Not hard at all it turns out. I opened up Inspect Element in my browser and copied the html of the email. I then wrote this script to make it into a theoretical spear-phishing email. If this were to be used maliciously, we would have some real problems. People click on unformatted emails; all they need for extra convincing is their name, face, and the LinkedIn logo. This is an issue that should be solved by email providers as well as social media sites, as a tool like this could wreak havoc on any user it touches. 
 ** Use
-   To use xenos, all you need is python3 installed. You run it simply with ~python3 xenos.py~. This will then prompt the user to enter certain details, such as the template file, the sender's name, the sender's profile picture, the target's name, the target's profile picture, and the target's job. This will ask sequentially. For the images, it is best to include a URL to an image, as pointing towards local files will not continue over into an email sent.\\
+   To use xenos, all you need is python3 installed. You run it simply with ~python3 xenos.py TEMPLATE.html INPUT OUTFILE ~. TEMPLATE being the template you want to use, INPUT being the input with certain details, such as the template file, the sender's name, the sender's profile picture, the target's name, the target's profile picture, and the target's job (IN THAT ORDER), and and OUTFILE being the modified file. The input file needs to be in the right order:
+
+ * New Link
+ * Fake Sender
+ * Sender Image
+ * Sender Job
+ * Sender's place of work
+ * Target
+ * Target's Image
+ * Target's Job
+
+ For the images, it is best to include a URL to an image, as pointing towards local files will not continue over into an email sent.\\
    
-   From here, we'll be given an output file named ~email.html~. If you open that in your browser, you will see what your email will look like. Here, all you need to do is carefully copy MOST of the content and then paste it into the email. There is a small bug where if you copy a little too much it will create undeletable whitespace in the email. And that's it! Send away!
+   The output will be put in the name of the output file you specified on the command line. If you open that in your browser, you will see what your email will look like. Here, all you need to do is carefully copy MOST of the content and then paste it into the email. There is a small bug where if you copy a little too much it will create undeletable whitespace in the email. And that's it! Send away!
    
      
 ** Disclaimer
