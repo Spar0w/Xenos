@@ -14,7 +14,7 @@
  * Sender's place of work
  * Target
  * Target's Image
- * Target's Job
+ * Target Job
 
  For the images, it is best to include a URL to an image, as pointing towards local files will not continue over into an email sent.\\
    
