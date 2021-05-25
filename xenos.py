@@ -1,4 +1,4 @@
-#XENOS: A tool for cloning (currently) LinkedIn conenction emails.
+#XENOS: A tool for cloning social media emails
 #Use: You will need to provide the following:
   #A template
   #A link to replace the ones in the template
