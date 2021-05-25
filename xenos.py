@@ -38,29 +38,9 @@ target = inp[5].strip()
 target_img = inp[6].strip()
 job = inp[7].strip()
 
-#Replace links and names
-def replace_links(email):
-    '''Takes in the template contents and returns the new email with names and links replaced.'''
-    link_email = ""
-    for line in email:
-        #If a url is found in the line
-        if(re.sub(url_reg, 'a href="' + link_to + '"', line, 10)):
-            line = (re.sub(url_reg, 'a href="' + link_to + '"', line, 10))
-            #Replacing Names here
-            if "FROM" in line:
-                link_email = link_email + replace_name(line, "FROM") + "\n"
-            elif "TARGET" in line:
-                link_email = link_email + replace_name(line, "TARGET") + "\n"
-            #If no name flags found, just append the line to the variable
-            else:
-                link_email = link_email + line + "\n"
-        else:
-            link_email = link_email + line + "\n"
-    return(link_email)
-
 #Replace images for the target and the fake person
-def replace_images(email):
-    '''Takes in the contents of an email and returns the new email with images replaced.'''
+def replace(email):
+    '''Takes in the contents of an email and returns the new email things replaced.'''
     new_email = ""
     for line in email:
         #If the value of fake_person is found and an image, replace the image 
@@ -73,11 +53,21 @@ def replace_images(email):
             #replace image with the target image
             line = image_swap(line, target_img)
             new_email = new_email + line + "\n"
-        #if this string is found in the line, replace it with the user input.
-        #this is this way because the only time the sender's job is found is on the
-        #same line as the image. This should be rewritten to be more expandable -- WTF DOES EXPANDABLE MEAN?
+        #Replace Sender Job
         elif "SENDERJOB" in line:
            new_email = new_email + replace_job(line, fake_job) + "\n"
+        #Replace Names Here
+        elif(re.sub(url_reg, 'a href="' + link_to + '"', line, 10)):
+            line = (re.sub(url_reg, 'a href="' + link_to + '"', line, 10))
+            #Replacing Names here -- Has to be nested??
+            if "FROM" in line:
+                new_email = new_email + replace_name(line, "FROM") + "\n"
+            elif "TARGET" in line:
+                new_email = new_email + replace_name(line, "TARGET") + "\n"
+            #If no name flags found, just append the line to the variable
+            else:
+                #This else has to happen twice otherwise it breaks or something
+                new_email = new_email + line + "\n" 
         else:
             new_email = new_email + line + "\n"
     return(new_email)
@@ -113,7 +103,8 @@ def replace_job(line, job):
     return(line)
 
 #Write the email
-content = replace_images(replace_links(email).splitlines())
+#content = replace_images(replace_links(email).splitlines())
+content = replace(email)
 email = open(outfile, "w+")
 email.write(content)
 email.close()
