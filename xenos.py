@@ -15,6 +15,29 @@ import sys
 url_reg = "(a href=\"http[s]://([\w\-\.\?\&\$\/\=\;\%])+)"
 img_reg = "(src=\"http[s]:\/\/([\w\-\.\?\&\$\/\=\;\%\#\:])+)"
 
+#Take command line arguments for the template and the info to put in the new email
+template_path = sys.argv[1]
+info = sys.argv[2]
+outfile = sys.argv[3]
+
+template = open(template_path, "r")
+email = template.readlines()
+template.close()
+
+info = open(info, "r")
+inp = info.readlines()
+info.close()
+
+#Assign globals with no newline from the text input
+link_to = inp[0].strip()
+fake_person = inp[1].strip()
+fake_img = inp[2].strip()
+fake_job = inp[3].strip()
+fake_work = inp[4].strip()
+target = inp[5].strip()
+target_img = inp[6].strip()
+job = inp[7].strip()
+
 #Replace links and names
 def replace_links(email):
     '''Takes in the template contents and returns the new email with names and links replaced.'''
@@ -88,41 +111,6 @@ def replace_job(line, job):
     elif "JOB" in line:
         line = (re.sub("JOB", job, line, 10))
     return(line)
-
-#Get user input through a psudeo-menu
-"""
-link_to = input("Custom Link: ")
-fake_person = input("Name of sender: ")
-fake_img = input("Sender Profile Pic: ")
-fake_job = input("Sender Profession: ")
-fake_work = input("Sender Work Place: ")
-target = input("Target Name: ")
-target_img = input("Target Profile Pic: ")
-job = input("Target Profession: ")
-"""
-
-#Take command line arguments for the template and the info to put in the new email
-template_path = sys.argv[1]
-info = sys.argv[2]
-outfile = sys.argv[3]
-
-template = open(template_path, "r")
-email = template.readlines()
-template.close()
-
-info = open(info, "r")
-inp = info.readlines()
-info.close()
-
-#Assign globals with no newline from the text input
-link_to = inp[0].strip()
-fake_person = inp[1].strip()
-fake_img = inp[2].strip()
-fake_job = inp[3].strip()
-fake_work = inp[4].strip()
-target = inp[5].strip()
-target_img = inp[6].strip()
-job = inp[7].strip()
 
 #Write the email
 content = replace_images(replace_links(email).splitlines())
