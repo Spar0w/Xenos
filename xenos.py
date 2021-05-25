@@ -40,18 +40,17 @@ def replace_images(email):
     '''Takes in the contents of an email and returns the new email with images replaced.'''
     new_email = ""
     for line in email:
-        #If the value of fake_person is found and an image, replace the image
-        if fake_person in line:
+        #If the value of fake_person is found and an image, replace the image 
+        if "SENDERIMG" in line:
             #replace image with the sender image
-            if(re.sub(img_reg, 'src=\"' + fake_img + '"', line, 10)):
-                line = (re.sub(img_reg, 'src=\"' + fake_img + '"', line, 10))
-                new_email = new_email + line + "\n"
+            line = image_swap(line, fake_img)
+            new_email = new_email + line + "\n"
         #replace the image with the target image
-        elif target in line:
-            if(re.sub(img_reg, 'src=\"' + target_img + '"', line, 10)):
-                line = (re.sub(img_reg, 'src=\"' + target_img + '"', line, 10))
-                new_email = new_email + line + "\n"
-        #if this string is found in the line, we'll replace it with the user input.
+        elif "PHISHIMG" in line:
+            #replace image with the target image
+            line = image_swap(line, target_img)
+            new_email = new_email + line + "\n"
+        #if this string is found in the line, replace it with the user input.
         #this is this way because the only time the sender's job is found is on the
         #same line as the image. This should be rewritten to be more expandable
         elif "SENDERJOB" in line:
@@ -59,6 +58,12 @@ def replace_images(email):
         else:
             new_email = new_email + line + "\n"
     return(new_email)
+
+def image_swap(line, img):
+    """replaces image in a line based on a regular expression"""
+    if(re.sub(img_reg, 'src=\"' + img + '"', line, 10)):
+        line = (re.sub(img_reg, 'src=\"' + img + '"', line, 10))
+        return line
 
 #Returns a modified line with a place holder replaced with user input
 #Also replaces the job information as this script works line by line
