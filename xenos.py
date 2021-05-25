@@ -75,7 +75,7 @@ def replace_images(email):
             new_email = new_email + line + "\n"
         #if this string is found in the line, replace it with the user input.
         #this is this way because the only time the sender's job is found is on the
-        #same line as the image. This should be rewritten to be more expandable
+        #same line as the image. This should be rewritten to be more expandable -- WTF DOES EXPANDABLE MEAN?
         elif "SENDERJOB" in line:
            new_email = new_email + replace_job(line, fake_job) + "\n"
         else:
@@ -98,7 +98,7 @@ def replace_name(line, person):
     elif person == "TARGET":
         line = (re.sub(person, target, line, 10))
         #This is put here because the JOB flag is right next to the name
-        #Should be modified in the future to increase exapandability
+        #Should be modified in the future to increase exapandability -- WTF DOES EXPANDABILITY MEAN? 
         line = replace_job(line, job)
     return(line)
 
